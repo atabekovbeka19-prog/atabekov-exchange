@@ -1,0 +1,16 @@
+{
+  "name": "ATABEKOV EXCHANGE",
+  "short_name": "AT Exchange",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

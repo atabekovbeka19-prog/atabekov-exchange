@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ATABEKOV">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<title>ATABEKOV EXCHANGE</title>
+<style>
+:root{color-scheme:dark;--gold:#e6bd55;--gold2:#a97920;--panel:#151515;--muted:#a6a6a6}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#242016 0,#090909 48%,#050505 100%);color:#f5f1e8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom))}
+main{max-width:560px;margin:0 auto}.brand{text-align:center;padding:25px 0 18px}.brand img{width:76px;height:76px;object-fit:cover;border-radius:20px;border:1px solid var(--gold2);box-shadow:0 0 28px #c18b3033}.brand h1{font-size:21px;letter-spacing:3px;margin:12px 0 4px;color:var(--gold)}.brand p{margin:0;color:var(--muted);font-size:11px;letter-spacing:2px}
+.card{background:linear-gradient(145deg,#1a1a1a,#101010);border:1px solid #51401e;border-radius:18px;padding:17px;margin:13px 0;box-shadow:0 10px 30px #0008}.section-title{font-size:12px;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin:0 0 13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}.field input,.amount{width:100%;background:#080808;border:1px solid #49402d;border-radius:11px;color:white;padding:13px;font-size:17px;outline:none}.field input:focus,.amount:focus{border-color:var(--gold)}
+.rate-note{font-size:11px;color:var(--muted);margin-top:5px}.tabs{display:flex;gap:8px;margin-bottom:13px}.tab{flex:1;padding:11px 6px;border:1px solid #4c3c1c;border-radius:10px;background:#101010;color:#d8cba9;font-weight:600}.tab.active{background:linear-gradient(135deg,#e9c66e,#a97920);color:#17120a;border-color:#e9c66e}
+label.main-label{display:block;color:var(--muted);font-size:12px;margin:3px 0 7px}.result{margin-top:12px;padding:14px;border-radius:12px;background:#090909;border:1px solid #3b321e}.result small{color:var(--muted)}.result strong{display:block;font-size:27px;color:#f1cf72;margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.hint{color:var(--muted);font-size:11px;line-height:1.45;margin-top:10px}
+button.action{border:0;border-radius:10px;padding:12px 14px;background:linear-gradient(135deg,#e9c66e,#a97920);color:#17120a;font-weight:700}button.secondary{background:#222;color:#eee;border:1px solid #51401e}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.history-item{padding:10px 0;border-bottom:1px solid #30291c;font-size:13px}.history-item:last-child{border:0}.history-item small{display:block;color:var(--muted);margin-top:3px}
+footer{text-align:center;color:#777;font-size:10px;padding:12px}
+</style>
+</head>
+<body>
+<main>
+<header class="brand">
+<img src="icon.png" alt="AT logo" onerror="this.style.display='none'">
+<h1>ATABEKOV EXCHANGE</h1><p>ВАЛЮТНЫЙ КАЛЬКУЛЯТОР · KGS</p>
+</header>
+
+<section class="card">
+<h2 class="section-title">НАСТРОЙКА КУРСОВ</h2>
+<div class="grid">
+<div class="field"><label for="rubBuy">Покупка RUB (сом)</label><input id="rubBuy" type="number" inputmode="decimal" step="0.0001"></div>
+<div class="field"><label for="rubSell">Продажа RUB (сом)</label><input id="rubSell" type="number" inputmode="decimal" step="0.0001"></div>
+<div class="field"><label for="usdRate">Курс USD (сом)</label><input id="usdRate" type="number" inputmode="decimal" step="0.01"></div>
+<div class="field"><label for="uzsRate">Курс UZS (сом за 1 000 сум)</label><input id="uzsRate" type="number" inputmode="decimal" step="0.01"></div>
+</div>
+<div class="hint">Курсы сохраняются на этом устройстве автоматически. Вводи свои значения вручную.</div>
+</section>
+
+<section class="card">
+<h2 class="section-title">КАЛЬКУЛЯТОР ОБМЕНА</h2>
+<div class="tabs">
+<button class="tab active" data-mode="buy">Покупка RUB</button>
+<button class="tab" data-mode="sell">Продажа RUB</button>
+<button class="tab" data-mode="usd">USD → KGS</button>
+<button class="tab" data-mode="uzs">UZS → KGS</button>
+</div>
+<label class="main-label" id="amountLabel" for="amount">Сколько рублей?</label>
+<input class="amount" id="amount" type="number" inputmode="decimal" placeholder="Введите сумму" value="70000">
+<div class="result"><small id="resultLabel">К оплате</small><strong id="result">84 000,00 сом</strong></div>
+<div class="row" style="margin-top:12px">
+<button class="action" id="saveOperation">Сохранить операцию</button>
+<button class="action secondary" id="clearAmount">Очистить</button>
+</div>
+<div class="hint" id="rateUsed">Расчёт по курсу 1 RUB = 1,20 KGS</div>
+</section>
+
+<section class="card">
+<div class="row"><h2 class="section-title" style="margin:0">ИСТОРИЯ ОПЕРАЦИЙ</h2><button class="action secondary" id="clearHistory">Очистить</button></div>
+<div id="history"><div class="hint">Сохранённых операций пока нет.</div></div>
+</section>
+<footer>AT · ATABEKOV EXCHANGE<br>Расчёты справочные. Проверяй курс перед обменом.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const defaults={rubBuy:1.20,rubSell:1.05,usdRate:87.20,uzsRate:0.0069};
+let rates={...defaults,...JSON.parse(localStorage.getItem('at_rates')||'{}')};
+let mode='buy', history=JSON.parse(localStorage.getItem('at_history')||'[]');
+for(const k of Object.keys(defaults)){$(k).value=rates[k];$(k).addEventListener('input',()=>{rates[k]=Number($(k).value)||0;localStorage.setItem('at_rates',JSON.stringify(rates));calculate()})}
+const fmt=n=>Number(n).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2});
+function calculate(){
+ const amount=Number($('amount').value)||0;
+ let rate=mode==='buy'?rates.rubBuy:mode==='sell'?rates.rubSell:mode==='usd'?rates.usdRate:rates.uzsRate;
+ const total=mode==='uzs'?(amount/1000)*rate:amount*rate;
+ $('result').textContent=fmt(total)+' сом';
+ $('rateUsed').textContent=mode==='uzs'?`Расчёт по курсу 1 000 UZS = ${fmt(rate)} KGS`:`Расчёт по курсу 1 ${mode==='usd'?'USD':'RUB'} = ${fmt(rate)} KGS`;
+ $('resultLabel').textContent=mode==='buy'?'К оплате':mode==='sell'?'К получению':'Итого в сомах';
+}
+function setMode(m){
+ mode=m;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));
+ $('amountLabel').textContent=m==='usd'?'Сколько долларов?':m==='uzs'?'Сколько узбекских сумов?':'Сколько рублей?';
+ $('amount').value=m==='buy'?'70000':m==='sell'?'70000':m==='uzs'?'100000':'100';calculate();
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+$('amount').addEventListener('input',calculate);
+$('clearAmount').addEventListener('click',()=>{$('amount').value='';calculate();$('amount').focus()});
+function renderHistory(){
+ $('history').innerHTML=history.length?history.map(x=>`<div class="history-item"><b>${x.title}</b> · ${x.amount} ${x.currency}<span style="float:right;color:#f1cf72">${x.total} сом</span><small>${x.date} · курс ${x.rate}</small></div>`).join(''):'<div class="hint">Сохранённых операций пока нет.</div>';
+}
+$('saveOperation').addEventListener('click',()=>{
+ const amount=Number($('amount').value)||0;if(!amount)return;
+ const rate=mode==='buy'?rates.rubBuy:mode==='sell'?rates.rubSell:mode==='usd'?rates.usdRate:rates.uzsRate;
+ const total=mode==='uzs'?(amount/1000)*rate:amount*rate;
+ history.unshift({title:mode==='buy'?'Покупка рублей':mode==='sell'?'Продажа рублей':mode==='usd'?'Обмен долларов':'Обмен узбекских сумов',amount:fmt(amount),currency:mode==='usd'?'USD':mode==='uzs'?'UZS':'RUB',total:fmt(total),rate:fmt(rate),date:new Date().toLocaleString('ru-RU')});
+ history=history.slice(0,30);localStorage.setItem('at_history',JSON.stringify(history));renderHistory();
+});
+$('clearHistory').addEventListener('click',()=>{if(confirm('Удалить всю историю операций?')){history=[];localStorage.setItem('at_history','[]');renderHistory()}});
+renderHistory();calculate();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
