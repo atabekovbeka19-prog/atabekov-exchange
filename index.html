@@ -1,735 +1,710 @@
 <!DOCTYPE html>
-
 <html lang="ru">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#101827">
-
-<title>ATABEKOV EXCHANGE</title>
-
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ATABEKOV EXCHANGE">
+<title>ATABEKOV EXCHANGE v2.0</title>
 <style>
-
+:root{--bg:#101827;--panel:#182338;--panel2:#202d43;--gold:#d6b45d;--gold2:#f1d88b;--text:#f5f5f5;--muted:#aab4c4;--line:#35445d;--red:#ff7777;--green:#72d6a0}
 *{box-sizing:border-box}
-
-body{
-
- margin:0;
-
- padding:18px;
-
- background:#101827;
-
- color:#fff;
-
- font-family:Arial,sans-serif;
-
-}
-
-.container{max-width:650px;margin:auto}
-
-h1{text-align:center;font-size:25px;letter-spacing:2px}
-
-.subtitle{text-align:center;color:#9ca9bd;margin-bottom:25px}
-
-.card{
-
- background:#1b293b;
-
- padding:18px;
-
- border-radius:16px;
-
- margin-bottom:16px;
-
-}
-
-h2{font-size:18px;margin-top:0}
-
-label{display:block;color:#aebbd0;font-size:13px;margin:12px 0 6px}
-
-input,select,button{
-
- width:100%;
-
- padding:13px;
-
- border-radius:9px;
-
- border:1px solid #40516a;
-
- background:#101b2a;
-
- color:white;
-
- font-size:16px;
-
-}
-
-button{
-
- background:#d4ad61;
-
- color:#172033;
-
- font-weight:bold;
-
- border:0;
-
- margin-top:12px;
-
- cursor:pointer;
-
-}
-
-button.secondary{background:#34445b;color:white}
-
-button.danger{background:#a83e48;color:white}
-
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-.result{
-
- background:#101b2a;
-
- padding:16px;
-
- border-radius:12px;
-
- margin-top:15px;
-
-}
-
-.result strong{font-size:25px;color:#e5bd70}
-
-.small{font-size:12px;color:#aebbd0}
-
-.transaction{
-
- border-bottom:1px solid #40516a;
-
- padding:12px 0;
-
- font-size:14px;
-
-}
-
-.transaction:last-child{border:0}
-
-.rate-row{
-
- display:grid;
-
- grid-template-columns:1fr 1fr 1fr;
-
- gap:8px;
-
- align-items:end;
-
- margin-bottom:10px;
-
-}
-
-.rate-row input{padding:10px;font-size:14px}
-
-.rate-row label{margin-top:0}
-
-.report-title{font-weight:bold;color:#e5bd70}
-
-@media(max-width:420px){
-
- body{padding:12px}
-
- .row{gap:7px}
-
- .rate-row{gap:5px}
-
- .rate-row input{font-size:12px;padding:9px 5px}
-
-}
-
+body{margin:0;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#111b2c,#202b3b)}
+.brand{color:var(--gold2);font-weight:800;letter-spacing:2px;font-size:20px}
+.sub{color:var(--muted);font-size:11px;letter-spacing:2px;margin-top:5px}
+nav{display:flex;gap:7px;padding:12px;overflow:auto;position:sticky;top:0;background:#101827;z-index:5;border-bottom:1px solid var(--line)}
+button{white-space:nowrap;border:1px solid #8f763c;background:linear-gradient(180deg,#d9bd70,#b18d3c);color:#171717;font-weight:700;padding:11px 13px;border-radius:10px;font-size:14px;cursor:pointer}
+button.secondary{background:var(--panel2);border-color:var(--line);color:var(--text)}
+button.danger{background:#5a2930;color:#fff;border-color:#8c454c}
+main{max-width:850px;margin:auto;padding:14px}
+.view{display:none}.view.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:13px;box-shadow:0 5px 18px #0002}
+h2{font-size:18px;margin:0 0 14px;color:var(--gold2)}
+label{display:block;color:var(--muted);font-size:12px;margin:9px 0 5px}
+input,select{width:100%;background:#0f1929;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:12px;font-size:16px;min-width:0}
+input:disabled{opacity:.45}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.result{background:#0e1929;border:1px solid #786337;border-radius:12px;padding:14px;margin-top:12px}
+.result strong{display:block;color:var(--gold2);font-size:25px;overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--gold2)}
+.tablewrap{overflow:auto}
+.pill{font-size:11px;border-radius:20px;padding:4px 8px;background:#31415a;color:#dce5f3}
+.manual{color:var(--gold2)}.auto{color:var(--green)}
+canvas{width:100%;height:240px;background:#0e1929;border-radius:10px;border:1px solid var(--line)}
+.note{color:var(--muted);line-height:1.5;display:block;margin-top:8px;font-size:12px}
+@media(max-width:520px){main{padding:10px}.brand{font-size:18px}nav{padding:9px}}
 </style>
-
 </head>
-
 <body>
 
-<div class="container">
+<header>
+<div class="brand">ATABEKOV EXCHANGE</div>
+<div class="sub">CURRENCY EXCHANGE · VERSION 2.0</div>
+</header>
 
-<h1>ATABEKOV EXCHANGE</h1>
+<nav>
+<button data-tab="calc">Калькулятор</button>
+<button class="secondary" data-tab="rates">Курсы</button>
+<button class="secondary" data-tab="charts">Графики</button>
+<button class="secondary" data-tab="reports">Отчёты</button>
+</nav>
 
-<div class="subtitle">Валютный калькулятор и учёт операций</div>
+<main>
 
+<section id="calc" class="view active">
 <div class="card">
-
-<h2>Курсы валют</h2>
-
-<p class="small">Укажите курс за 1 единицу валюты в сомах.</p>
-
-<div class="rate-row">
-
-<div><label>Валюта</label><input value="RUB" disabled></div>
-
-<div><label>Покупка</label><input id="RUBbuy" type="number" step="0.0001" value="1.20"></div>
-
-<div><label>Продажа</label><input id="RUBsell" type="number" step="0.0001" value="1.05"></div>
-
-</div>
-
-<div class="rate-row">
-
-<div><label>Валюта</label><input value="USD" disabled></div>
-
-<div><label>Покупка</label><input id="USDbuy" type="number" step="0.0001" value="87.20"></div>
-
-<div><label>Продажа</label><input id="USDsell" type="number" step="0.0001" value="87.20"></div>
-
-</div>
-
-<div class="rate-row">
-
-<div><label>Валюта</label><input value="UZS" disabled></div>
-
-<div><label>Покупка</label><input id="UZSbuy" type="number" step="0.000001" value="0.0069"></div>
-
-<div><label>Продажа</label><input id="UZSsell" type="number" step="0.000001" value="0.0069"></div>
-
-</div>
-
-<button onclick="saveRates()">Сохранить курсы</button>
-
-</div>
-
-<div class="card">
-
 <h2>Калькулятор обмена</h2>
+<label>Сумма, которую клиент отдаёт</label>
+<input id="amount" type="number" inputmode="decimal" min="0" step="any" value="100">
 
-<label>Клиент даёт</label>
-
-<div class="row">
-
-<input id="amount" type="number" placeholder="Сумма" oninput="calculate()">
-
-<select id="from" onchange="calculate()">
-
-<option>RUB</option>
-
-<option>USD</option>
-
-<option>UZS</option>
-
-<option>KGS</option>
-
-</select>
-
+<div class="grid">
+<div><label>Клиент отдаёт</label><select id="from"></select></div>
+<div><label>Клиент получает</label><select id="to"></select></div>
+<div><label>Итоговый эквивалент</label><select id="equiv"></select></div>
+<div><label>Базовая валюта</label><input value="KGS" disabled></div>
 </div>
-
-<label>Клиент получает</label>
-
-<select id="to" onchange="calculate()">
-
-<option>KGS</option>
-
-<option>RUB</option>
-
-<option>USD</option>
-
-<option>UZS</option>
-
-</select>
 
 <div class="result">
-
-<div class="small">Клиент получит:</div>
-
-<strong id="answer">0.00 KGS</strong>
-
-<p class="small" id="calculationInfo">Введите сумму для расчёта</p>
-
+<div class="muted">Клиент получает</div>
+<strong id="receive">—</strong>
+<span id="receiveHint" class="muted"></span>
 </div>
 
-<button onclick="addTransaction()">Добавить операцию в отчёт</button>
+<div class="result">
+<div class="muted">Итоговый эквивалент</div>
+<strong id="equivalent">—</strong>
+<span id="equivHint" class="muted"></span>
+</div>
 
+<div class="actions">
+<button id="saveOperation">Сохранить операцию</button>
+<button class="secondary" id="swap">Поменять валюты</button>
+</div>
+<small class="note">Для валюты, которую клиент отдаёт, применяется курс покупки. Для валюты, которую клиент получает, — курс продажи. Эквивалент рассчитывается независимо.</small>
 </div>
 
 <div class="card">
-
-<h2>Отчёты</h2>
-
-<label>Название нового отчёта</label>
-
-<input id="newReportName" placeholder="Например: Смена 27 ноября">
-
-<button onclick="createReport()">Создать отчёт</button>
-
-<label>Выберите отчёт</label>
-
-<select id="reportSelect" onchange="selectReport()"></select>
-
-<div id="reportInfo" class="result"></div>
-
 <div class="row">
-
-<button class="secondary" onclick="renameReport()">Переименовать</button>
-
-<button class="danger" onclick="deleteReport()">Удалить отчёт</button>
-
+<h2 style="margin:0">Основные курсы</h2>
+<span id="rateStatus" class="pill">Загрузка…</span>
 </div>
+<div id="mainRates" class="tablewrap"></div>
+</div>
+</section>
 
-<button class="secondary" onclick="exportCSV()">Скачать отчёт CSV</button>
-
+<section id="rates" class="view">
+<div class="card">
+<h2>Управление курсами</h2>
+<div class="grid">
+<div><label>Валюта</label><select id="rateCurrency"></select></div>
+<div><label>Источник курса</label>
+<select id="rateMode">
+<option value="manual">Ручной курс</option>
+<option value="auto">Автоматический курс</option>
+</select></div>
+</div>
+<div class="grid">
+<div><label>Покупка (KGS за 1 единицу)</label><input id="buyRate" type="number" step="any"></div>
+<div><label>Продажа (KGS за 1 единицу)</label><input id="sellRate" type="number" step="any"></div>
+</div>
+<div class="actions">
+<button id="saveRate">Сохранить курс</button>
+<button class="secondary" id="autoRate">Вернуть автоматический</button>
+</div>
+<small class="note">Ручные значения имеют приоритет и не перезаписываются автоматическим обновлением.</small>
 </div>
 
 <div class="card">
+<div class="row">
+<h2 style="margin:0">Все валюты</h2>
+<input id="currencySearch" placeholder="Поиск валюты" style="max-width:180px">
+</div>
+<div id="allRates" class="tablewrap"></div>
+</div>
+</section>
 
-<h2>История операций</h2>
+<section id="charts" class="view">
+<div class="card">
+<h2>История курсов</h2>
+<div class="grid">
+<div><label>Валюта</label><select id="chartCurrency"></select></div>
+<div><label>Период</label>
+<select id="chartPeriod">
+<option value="1">24 часа</option>
+<option value="7" selected>7 дней</option>
+<option value="30">30 дней</option>
+<option value="90">90 дней</option>
+</select>
+</div>
+</div>
+<canvas id="chart" width="900" height="360"></canvas>
+<div id="chartSummary" class="muted" style="margin-top:9px"></div>
+<small class="note">История курсов сохраняется на устройстве. Новые точки добавляются при обновлении справочных курсов и открытии приложения.</small>
+</div>
+</section>
 
-<div id="history" class="small">Пока операций нет.</div>
-
+<section id="reports" class="view">
+<div class="card">
+<h2>Текущий ежедневный отчёт</h2>
+<label>Название отчёта</label>
+<input id="reportName" placeholder="Например: Касса за сегодня">
+<div class="grid">
+<div class="result"><span class="muted">Количество операций</span><strong id="opCount">0</strong></div>
+<div class="result"><span class="muted">Общий оборот (KGS)</span><strong id="turnover">0.00</strong></div>
+</div>
+<div class="actions">
+<button id="exportToday">Экспорт CSV</button>
+<button class="secondary" id="renameReport">Сохранить название</button>
+</div>
 </div>
 
+<div class="card">
+<h2>История операций за день</h2>
+<div id="operations" class="tablewrap"></div>
 </div>
+
+<div class="card">
+<h2>Архив отчётов</h2>
+<div id="archives" class="tablewrap"></div>
+</div>
+</section>
+
+</main>
 
 <script>
+'use strict';
 
-const currencies = ["RUB","USD","UZS","KGS"];
+const CURRENCIES = [
+'KGS','RUB','USD','UZS','EUR','GBP','CHF','CNY','JPY','KRW',
+'INR','PKR','BDT','LKR','NPR','THB','VND','IDR','MYR','SGD',
+'HKD','TWD','PHP','AUD','NZD','CAD','MXN','BRL','ARS','CLP',
+'COP','PEN','UYU','BOB','PYG','ZAR','EGP','MAD','TND','DZD',
+'NGN','GHS','KES','UGX','TZS','ETB','XOF','XAF','RWF','BIF',
+'MUR','SCR','AED','SAR','QAR','KWD','BHD','OMR','JOD','ILS',
+'TRY','IRR','IQD','AFN','GEL','AMD','AZN','KZT','TJS','TMT',
+'MNT','UAH','PLN','CZK','HUF','RON','BGN','RSD','MKD','ALL',
+'BAM','MDL','ISK','NOK','SEK','DKK','XAU','XAG','XDR','XPF',
+'FJD','PGK','WST','TOP','VUV','SBD','BND','KHR','LAK','MMK',
+'MVR','MZN','AOA','ZMW','ZWL','MWK','SOS','SDG','SSP','LYD',
+'ERN','CVE','GMD','GNF','SLL','LRD','CDF','KMF','DJF','STN',
+'MRU','HTG','DOP','JMD','TTD','BBD','BSD','BZD','XCD','AWG',
+'SRD','GYD','CUP','CRC','GTQ','HNL','NIO','PAB','BWP','LSL',
+'NAD','SZL','MGA','KPW','SYP','YER','LBP','BTN'
+];
 
-let rates = {
-
- RUB:{buy:1.20,sell:1.05},
-
- USD:{buy:87.20,sell:87.20},
-
- UZS:{buy:0.0069,sell:0.0069}
-
+const DEFAULTS = {
+KGS:{buy:1,sell:1},
+RUB:{buy:1.20,sell:1.05},
+USD:{buy:87.20,sell:87.20},
+UZS:{buy:0.0069,sell:0.0069}
 };
 
-let reports = [];
+const KEY='at_exchange_v2_data';
 
-let activeReport = null;
-
-function loadData(){
-
- try{
-
-  const savedRates=localStorage.getItem("atabekov_rates");
-
-  const savedReports=localStorage.getItem("atabekov_reports");
-
-  if(savedRates) rates=JSON.parse(savedRates);
-
-  if(savedReports) reports=JSON.parse(savedReports);
-
- }catch(e){console.log(e)}
-
- ["RUB","USD","UZS"].forEach(c=>{
-
-  document.getElementById(c+"buy").value=rates[c].buy;
-
-  document.getElementById(c+"sell").value=rates[c].sell;
-
- });
-
- if(reports.length===0){
-
-  reports.push({
-
-   id:Date.now(),
-
-   name:"Мой первый отчёт",
-
-   transactions:[]
-
-  });
-
- }
-
- activeReport=reports[0].id;
-
- saveData();
-
- updateReports();
-
- calculate();
-
+function today(){
+const d=new Date();
+return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function now(){return new Date().toISOString()}
+function load(){
+try{return JSON.parse(localStorage.getItem(KEY))||{}}
+catch(e){return {}}
 }
 
-function saveData(){
+let db=load();
+db.rates=db.rates||{};
+db.history=db.history||[];
+db.operations=db.operations||[];
+db.archives=db.archives||[];
+db.reportNames=db.reportNames||{};
 
- localStorage.setItem("atabekov_rates",JSON.stringify(rates));
+for(const c of CURRENCIES){
+if(!db.rates[c]){
+db.rates[c]={
+buy:DEFAULTS[c]?.buy??null,
+sell:DEFAULTS[c]?.sell??null,
+mode:DEFAULTS[c]?'manual':'auto'
+};
+}
+}
+db.rates.KGS={buy:1,sell:1,mode:'manual'};
 
- localStorage.setItem("atabekov_reports",JSON.stringify(reports));
-
+function persist(){
+try{localStorage.setItem(KEY,JSON.stringify(db))}
+catch(e){alert('Не удалось сохранить данные. Возможно, память устройства заполнена.')}
 }
 
-function saveRates(){
-
- ["RUB","USD","UZS"].forEach(c=>{
-
-  rates[c].buy=Number(document.getElementById(c+"buy").value);
-
-  rates[c].sell=Number(document.getElementById(c+"sell").value);
-
- });
-
- saveData();
-
- calculate();
-
- alert("Курсы сохранены");
-
+function fmt(n){
+return Number(n||0).toLocaleString('ru-RU',{maximumFractionDigits:6});
 }
 
-function getKGSValue(amount,currency){
+function rate(c,side){
+if(c==='KGS')return 1;
+const r=db.rates[c]||{};
+const v=side==='buy'?r.buy:r.sell;
+return Number(v)>0?Number(v):null;
+}
 
- if(currency==="KGS") return amount;
+function options(sel,selected){
+sel.innerHTML=CURRENCIES.map(c=>`<option value="${c}">${c}</option>`).join('');
+sel.value=selected||'KGS';
+}
 
- return amount*rates[currency].buy;
-
+function initSelectors(){
+options(document.querySelector('#from'),'USD');
+options(document.querySelector('#to'),'KGS');
+options(document.querySelector('#equiv'),'KGS');
+options(document.querySelector('#rateCurrency'),'RUB');
+options(document.querySelector('#chartCurrency'),'USD');
 }
 
 function calculate(){
+const a=Number(document.querySelector('#amount').value);
+const f=document.querySelector('#from').value;
+const t=document.querySelector('#to').value;
+const e=document.querySelector('#equiv').value;
 
- const amount=Number(document.getElementById("amount").value)||0;
+const fb=rate(f,'buy');
+const ts=rate(t,'sell');
+const es=rate(e,'sell');
 
- const from=document.getElementById("from").value;
+let received=null,eq=null;
 
- const to=document.getElementById("to").value;
-
- let kgs=getKGSValue(amount,from);
-
- let result;
-
- if(to==="KGS"){
-
-  result=kgs;
-
- }else{
-
-  result=kgs/rates[to].sell;
-
- }
-
- document.getElementById("answer").textContent=
-
-  result.toLocaleString("ru-RU",{maximumFractionDigits:4})+" "+to;
-
- let info="";
-
- if(from!=="KGS"){
-
-  info+="Покупка "+from+": "+rates[from].buy+" сом. ";
-
- }
-
- if(to!=="KGS"){
-
-  info+="Продажа "+to+": "+rates[to].sell+" сом.";
-
- }
-
- if(from===to) info="Одинаковая валюта.";
-
- document.getElementById("calculationInfo").textContent=
-
-  amount>0?info:"Введите сумму для расчёта";
-
- return {amount,from,to,result,kgs};
-
+if(a>=0&&fb&&ts){
+received=a*fb/ts;
+if(es)eq=a*fb/es;
 }
 
-function createReport(){
+document.querySelector('#receive').textContent=
+received===null?'Нет курса':`${fmt(received)} ${t}`;
 
- const name=document.getElementById("newReportName").value.trim();
+document.querySelector('#receiveHint').textContent=
+fb&&ts?`Курс покупки: ${fmt(fb)} KGS · курс продажи: ${fmt(ts)} KGS`:'Добавьте или обновите курс валюты.';
 
- if(!name){
+document.querySelector('#equivalent').textContent=
+eq===null?'Нет курса':`${fmt(eq)} ${e}`;
 
-  alert("Введите название отчёта");
+document.querySelector('#equivHint').textContent=
+eq===null?'Для выбранной валюты нет курса':'Эквивалент рассчитан независимо от валюты получения.';
 
-  return;
-
- }
-
- const report={
-
-  id:Date.now(),
-
-  name:name,
-
-  transactions:[]
-
- };
-
- reports.push(report);
-
- activeReport=report.id;
-
- document.getElementById("newReportName").value="";
-
- saveData();
-
- updateReports();
-
+return {a,f,t,e,received,eq};
 }
 
-function selectReport(){
-
- activeReport=Number(document.getElementById("reportSelect").value);
-
- updateReports();
-
+function tableRates(list){
+return `<table>
+<thead><tr><th>Валюта</th><th>Покупка</th><th>Продажа</th><th>Источник</th></tr></thead>
+<tbody>
+${list.map(c=>{
+const r=db.rates[c]||{};
+return `<tr>
+<td><b>${c}</b></td>
+<td>${r.buy>0?fmt(r.buy):'—'}</td>
+<td>${r.sell>0?fmt(r.sell):'—'}</td>
+<td class="${r.mode==='manual'?'manual':'auto'}">${r.mode==='manual'?'Ручной':'Авто'}</td>
+</tr>`;
+}).join('')}
+</tbody></table>`;
 }
 
-function currentReport(){
+function renderRates(){
+const main=['KGS','RUB','USD','UZS'];
+document.querySelector('#mainRates').innerHTML=tableRates(main);
 
- return reports.find(r=>r.id===activeReport);
-
+const q=(document.querySelector('#currencySearch').value||'').toUpperCase();
+const list=CURRENCIES.filter(c=>c.includes(q));
+document.querySelector('#allRates').innerHTML=tableRates(list);
 }
 
-function addTransaction(){
-
- const data=calculate();
-
- if(data.amount<=0){
-
-  alert("Введите сумму");
-
-  return;
-
- }
-
- const report=currentReport();
-
- if(!report){
-
-  alert("Сначала создайте отчёт");
-
-  return;
-
- }
-
- report.transactions.push({
-
-  date:new Date().toLocaleString("ru-RU"),
-
-  amount:data.amount,
-
-  from:data.from,
-
-  result:data.result,
-
-  to:data.to
-
- });
-
- saveData();
-
- updateReports();
-
- alert("Операция добавлена в отчёт");
-
+function snapshot(){
+const d=now();
+for(const c of CURRENCIES){
+const r=db.rates[c];
+if(r&&r.buy>0&&r.sell>0){
+db.history.push({c,b:r.buy,s:r.sell,t:d});
+}
+}
+db.history=db.history.slice(-30000);
+persist();
 }
 
-function renameReport(){
+function loadRateEditor(){
+const c=document.querySelector('#rateCurrency').value;
+const r=db.rates[c];
+document.querySelector('#rateMode').value=r.mode||'auto';
+document.querySelector('#buyRate').value=r.buy??'';
+document.querySelector('#sellRate').value=r.sell??'';
 
- const report=currentReport();
-
- if(!report)return;
-
- const name=prompt("Новое название отчёта:",report.name);
-
- if(name && name.trim()){
-
-  report.name=name.trim();
-
-  saveData();
-
-  updateReports();
-
- }
-
+const manual=r.mode==='manual';
+document.querySelector('#buyRate').disabled=!manual;
+document.querySelector('#sellRate').disabled=!manual;
 }
 
-function deleteReport(){
+async function updateAuto(){
+document.querySelector('#rateStatus').textContent='Обновление…';
 
- const report=currentReport();
+try{
+const res=await fetch('https://open.er-api.com/v6/latest/USD',{cache:'no-store'});
+if(!res.ok)throw Error('HTTP '+res.status);
 
- if(!report)return;
+const data=await res.json();
+if(data.result!=='success')throw Error('API error');
 
- if(!confirm("Удалить отчёт «"+report.name+"» и все его операции?"))return;
+const perUSD=data.rates;
+const kgsPerUSD=perUSD.KGS;
+if(!kgsPerUSD)throw Error('Нет KGS в справочнике');
 
- reports=reports.filter(r=>r.id!==activeReport);
+for(const c of CURRENCIES){
+if(c==='KGS'||db.rates[c]?.mode==='manual')continue;
 
- if(reports.length===0){
-
-  reports.push({
-
-   id:Date.now(),
-
-   name:"Новый отчёт",
-
-   transactions:[]
-
-  });
-
- }
-
- activeReport=reports[0].id;
-
- saveData();
-
- updateReports();
-
+const units=perUSD[c];
+if(units>0){
+const v=kgsPerUSD/units;
+db.rates[c]={buy:v,sell:v,mode:'auto',updated:now()};
+}
 }
 
-function updateReports(){
+persist();
+snapshot();
 
- const select=document.getElementById("reportSelect");
+document.querySelector('#rateStatus').textContent='Курсы обновлены';
+renderRates();
+calculate();
+loadRateEditor();
+renderChart();
 
- select.innerHTML="";
-
- reports.forEach(r=>{
-
-  const option=document.createElement("option");
-
-  option.value=r.id;
-
-  option.textContent=r.name;
-
-  if(r.id===activeReport)option.selected=true;
-
-  select.appendChild(option);
-
- });
-
- const report=currentReport();
-
- if(!report)return;
-
- const transactions=report.transactions;
-
- const count=transactions.length;
-
- const turnover=transactions.reduce((sum,t)=>sum+t.kgs,0);
-
- document.getElementById("reportInfo").innerHTML=
-
-  '<div class="report-title">'+escapeHTML(report.name)+'</div>'+
-
-  '<p>Количество операций: '+count+'</p>'+
-
-  '<p>Оборот в сомах: '+turnover.toLocaleString("ru-RU",{maximumFractionDigits:2})+' KGS</p>';
-
- const history=document.getElementById("history");
-
- if(count===0){
-
-  history.textContent="В этом отчёте пока нет операций.";
-
-  return;
-
- }
-
- history.innerHTML="";
-
- [...transactions].reverse().forEach(t=>{
-
-  const item=document.createElement("div");
-
-  item.className="transaction";
-
-  item.innerHTML=
-
-   '<div><b>'+t.amount+' '+t.from+' → '+
-
-   Number(t.result).toLocaleString("ru-RU",{maximumFractionDigits:4})+
-
-   ' '+t.to+'</b></div>'+
-
-   '<div class="small">'+escapeHTML(t.date)+'</div>';
-
-  history.appendChild(item);
-
- });
-
+}catch(err){
+document.querySelector('#rateStatus').textContent='Нет связи · локальные курсы';
+console.warn(err);
+}
 }
 
-function escapeHTML(value){
+function rollover(){
+const day=today();
 
- return String(value).replace(/[&<>"']/g,function(c){
-
-  return {
-
-   "&":"&amp;",
-
-   "<":"&lt;",
-
-   ">":"&gt;",
-
-   '"':"&quot;",
-
-   "'":"&#039;"
-
-  }[c];
-
- });
-
+if(!db.day){
+db.day=day;
+persist();
+return;
 }
 
-function exportCSV(){
+if(db.day!==day){
+const old=db.operations.filter(o=>o.day===db.day);
 
- const report=currentReport();
+db.archives.unshift({
+day:db.day,
+name:db.reportNames[db.day]||`Отчёт ${db.day}`,
+operations:old,
+created:now()
+});
 
- if(!report || report.transactions.length===0){
-
-  alert("В отчёте нет операций");
-
-  return;
-
- }
-
- let rows=[
-
-  ["Дата","Сумма от клиента","Валюта","Клиент получает","Валюта получения"]
-
- ];
-
- report.transactions.forEach(t=>{
-
-  rows.push([t.date,t.amount,t.from,t.result,t.to]);
-
- });
-
- const csv="\uFEFF"+rows.map(row=>
-
-  row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(";")
-
- ).join("\n");
-
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
-
- const url=URL.createObjectURL(blob);
-
- const a=document.createElement("a");
-
- a.href=url;
-
- a.download=report.name.replace(/[\\/:*?"<>|]/g,"_")+".csv";
-
- a.click();
-
- URL.revokeObjectURL(url);
-
+db.operations=db.operations.filter(o=>o.day!==db.day);
+db.day=day;
+persist();
+}
 }
 
-loadData();
+function escapeHtml(s){
+return String(s).replace(/[&<>"']/g,m=>({
+'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[m]));
+}
 
+function renderReports(){
+rollover();
+
+const ops=db.operations.filter(o=>o.day===db.day);
+
+document.querySelector('#reportName').value=
+db.reportNames[db.day]||`Отчёт ${db.day}`;
+
+document.querySelector('#opCount').textContent=ops.length;
+
+const turnover=ops.reduce((s,o)=>s+(Number(o.amountKGS)||0),0);
+document.querySelector('#turnover').textContent=fmt(turnover);
+
+document.querySelector('#operations').innerHTML=ops.length?
+`<table>
+<thead><tr><th>Время</th><th>Отдал</th><th>Получил</th><th>Эквивалент</th></tr></thead>
+<tbody>
+${ops.slice().reverse().map(o=>`
+<tr>
+<td>${new Date(o.time).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</td>
+<td>${fmt(o.amount)} ${o.from}</td>
+<td>${fmt(o.received)} ${o.to}</td>
+<td>${fmt(o.equivalent)} ${o.equiv}</td>
+</tr>`).join('')}
+</tbody></table>`:
+'<p class="muted">Операций пока нет.</p>';
+
+document.querySelector('#archives').innerHTML=db.archives.length?
+`<table>
+<thead><tr><th>Дата / название</th><th>Операции</th><th>Оборот KGS</th><th></th></tr></thead>
+<tbody>
+${db.archives.map((a,i)=>`
+<tr>
+<td>${escapeHtml(a.name)}<br><span class="muted">${a.day}</span></td>
+<td>${a.operations.length}</td>
+<td>${fmt(a.operations.reduce((s,o)=>s+(o.amountKGS||0),0))}</td>
+<td><button class="secondary" onclick="exportArchive(${i})">CSV</button></td>
+</tr>`).join('')}
+</tbody></table>`:
+'<p class="muted">Архив появится при наступлении нового дня.</p>';
+}
+
+function csv(ops){
+const rows=[
+['Дата и время','Сумма отдана','Валюта отдана','Сумма получена','Валюта получена','Эквивалент','Валюта эквивалента','Оборот KGS'],
+...ops.map(o=>[o.time,o.amount,o.from,o.received,o.to,o.equivalent,o.equiv,o.amountKGS])
+];
+
+return '\uFEFF'+rows.map(r=>
+r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')
+).join('\r\n');
+}
+
+function downloadCSV(name,ops){
+const blob=new Blob([csv(ops)],{type:'text/csv;charset=utf-8'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;
+a.download=name;
+a.click();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+window.exportArchive=function(i){
+const a=db.archives[i];
+if(a)downloadCSV(`ATABEKOV_${a.day}.csv`,a.operations);
+};
+
+function renderChart(){
+const c=document.querySelector('#chartCurrency').value;
+const days=Number(document.querySelector('#chartPeriod').value);
+const cut=Date.now()-days*86400000;
+
+const pts=db.history
+.filter(p=>p.c===c&&new Date(p.t).getTime()>=cut)
+.sort((a,b)=>new Date(a.t)-new Date(b.t));
+
+const canvas=document.querySelector('#chart');
+const ctx=canvas.getContext('2d');
+const w=canvas.width,h=canvas.height;
+
+ctx.clearRect(0,0,w,h);
+ctx.strokeStyle='#35445d';
+ctx.lineWidth=1;
+
+for(let i=1;i<5;i++){
+const y=i*h/5;
+ctx.beginPath();
+ctx.moveTo(45,y);
+ctx.lineTo(w-15,y);
+ctx.stroke();
+}
+
+if(!pts.length){
+ctx.fillStyle='#aab4c4';
+ctx.font='20px sans-serif';
+ctx.fillText('История начнёт накапливаться',55,h/2);
+document.querySelector('#chartSummary').textContent='Пока нет сохранённых точек за выбранный период.';
+return;
+}
+
+const vals=pts.map(p=>(p.b+p.s)/2);
+const min=Math.min(...vals);
+const max=Math.max(...vals);
+const range=max-min||1;
+
+ctx.strokeStyle='#e0c16b';
+ctx.lineWidth=4;
+ctx.beginPath();
+
+pts.forEach((p,i)=>{
+const x=45+(pts.length===1?0:i/(pts.length-1))*(w-70);
+const y=h-35-((vals[i]-min)/range)*(h-75);
+if(i)ctx.lineTo(x,y);
+else ctx.moveTo(x,y);
+});
+
+ctx.stroke();
+ctx.fillStyle='#f1d88b';
+
+pts.forEach((p,i)=>{
+const x=45+(pts.length===1?0:i/(pts.length-1))*(w-70);
+const y=h-35-((vals[i]-min)/range)*(h-75);
+ctx.beginPath();
+ctx.arc(x,y,4,0,Math.PI*2);
+ctx.fill();
+});
+
+document.querySelector('#chartSummary').textContent=
+`Точек: ${pts.length} · минимум: ${fmt(min)} KGS · максимум: ${fmt(max)} KGS · последнее: ${fmt(vals[vals.length-1])} KGS`;
+}
+
+function saveOperation(){
+const x=calculate();
+
+if(!(x.a>0)||x.received===null||x.eq===null){
+alert('Невозможно сохранить: проверьте сумму и курсы всех трёх валют.');
+return;
+}
+
+const fb=rate(x.f,'buy');
+
+const op={
+time:now(),
+day:today(),
+amount:x.a,
+from:x.f,
+received:x.received,
+to:x.t,
+equivalent:x.eq,
+equiv:x.e,
+amountKGS:x.a*fb
+};
+
+db.operations.push(op);
+persist();
+renderReports();
+alert('Операция сохранена.');
+}
+
+// Навигация
+document.querySelectorAll('nav button').forEach(b=>{
+b.addEventListener('click',()=>{
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.querySelectorAll('nav button').forEach(x=>x.classList.add('secondary'));
+
+document.getElementById(b.dataset.tab).classList.add('active');
+b.classList.remove('secondary');
+
+if(b.dataset.tab==='reports')renderReports();
+if(b.dataset.tab==='charts')renderChart();
+if(b.dataset.tab==='rates')renderRates();
+});
+});
+
+// Калькулятор
+['amount','from','to','equiv'].forEach(id=>{
+document.getElementById(id).addEventListener('input',calculate);
+document.getElementById(id).addEventListener('change',calculate);
+});
+
+document.querySelector('#saveOperation').addEventListener('click',saveOperation);
+
+document.querySelector('#swap').addEventListener('click',()=>{
+const f=document.querySelector('#from');
+const t=document.querySelector('#to');
+const temp=f.value;
+f.value=t.value;
+t.value=temp;
+calculate();
+});
+
+// Курсы
+document.querySelector('#rateCurrency').addEventListener('change',loadRateEditor);
+
+document.querySelector('#rateMode').addEventListener('change',()=>{
+const manual=document.querySelector('#rateMode').value==='manual';
+document.querySelector('#buyRate').disabled=!manual;
+document.querySelector('#sellRate').disabled=!manual;
+});
+
+document.querySelector('#saveRate').addEventListener('click',()=>{
+const c=document.querySelector('#rateCurrency').value;
+
+if(c==='KGS'){
+alert('KGS является базовой валютой и всегда равен 1.');
+return;
+}
+
+const buy=Number(document.querySelector('#buyRate').value);
+const sell=Number(document.querySelector('#sellRate').value);
+
+if(!(buy>0)||!(sell>0)){
+alert('Введите корректные курсы покупки и продажи.');
+return;
+}
+
+db.rates[c]={
+buy,
+sell,
+mode:'manual',
+updated:now()
+};
+
+persist();
+snapshot();
+renderRates();
+calculate();
+renderChart();
+alert('Курс сохранён.');
+});
+
+document.querySelector('#autoRate').addEventListener('click',()=>{
+const c=document.querySelector('#rateCurrency').value;
+
+if(c==='KGS')return;
+
+db.rates[c]={
+buy:null,
+sell:null,
+mode:'auto'
+};
+
+persist();
+loadRateEditor();
+updateAuto();
+renderRates();
+});
+
+document.querySelector('#currencySearch').addEventListener('input',renderRates);
+
+// Графики
+document.querySelector('#chartCurrency').addEventListener('change',renderChart);
+document.querySelector('#chartPeriod').addEventListener('change',renderChart);
+
+// Отчёты
+document.querySelector('#renameReport').addEventListener('click',()=>{
+const name=document.querySelector('#reportName').value.trim();
+
+if(!name){
+alert('Введите название отчёта.');
+return;
+}
+
+db.reportNames[today()]=name;
+persist();
+renderReports();
+alert('Название отчёта сохранено.');
+});
+
+document.querySelector('#exportToday').addEventListener('click',()=>{
+const ops=db.operations.filter(o=>o.day===today());
+downloadCSV(`ATABEKOV_${today()}.csv`,ops);
+});
+
+// Запуск
+initSelectors();
+rollover();
+renderRates();
+loadRateEditor();
+calculate();
+renderReports();
+snapshot();
+updateAuto();
+
+// Периодическое обновление справочных курсов
+setInterval(updateAuto,60*60*1000);
 </script>
-
 </body>
-
 </html>
